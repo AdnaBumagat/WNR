@@ -5,30 +5,40 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    // Show book creation form
     public function create()
     {
         return view('books.create');
     }
 
-    // Store book in the database
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'description' => 'required|string',
+            'genre' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image upload validation
         ]);
+
+        $imagePath = null;
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('book_images', 'public');
+        }
 
         Book::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
-            'body' => $request->body,
+            'description' => $request->description,
+            'genre' => $request->genre,
+            'image' => $imagePath, // Store the image path if uploaded
         ]);
 
-        return redirect()->route('home')->with('success', 'Book submitted for approval.');
+        return redirect()->route('books.index')->with('success', 'Book submitted for approval.');
     }
 
     // Show approved books
@@ -46,5 +56,32 @@ class BookController extends Controller
 
         return redirect()->route('admin.books')->with('success', 'Book approved.');
     }
+
+    public function toggleFeatured($id)
+{
+    $book = Book::findOrFail($id);
+    $book->featured = !$book->featured;
+    $book->save();
+
+    return redirect()->back()->with('success', 'Book featured status updated.');
+}
+
+public function adminFeaturedBooks()
+{
+    // Get all approved books for the admin to choose which to feature
+    $books = Book::where('is_approved', true)->get();
+    return view('admin.featured-books', compact('books'));
+}
+
+public function landingPage()
+{
+    // Fetch featured books
+    $featuredBooks = Book::where('is_approved', true)->where('featured', true)->get();
+
+    return view('landing', compact('featuredBooks'));
+}
+
+
+
 }
 
