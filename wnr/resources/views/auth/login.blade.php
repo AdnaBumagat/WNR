@@ -25,13 +25,14 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
-
-                    <!-- Forgot Password Link -->
-                    <div class="mt-3">
-                        <a href="{{ route('password.request') }}">Forgot your password?</a>
-                    </div>
-                    <div class="mt-3">
-                        <a href="{{ route('register') }}">Dont have an account? Create Here</a>
+                    <!-- Links Side by Side -->
+                    <div class="mt-3 d-flex justify-content-between">
+                        <div>
+                            <a href="{{ route('register') }}">Create an account?</a>
+                        </div>
+                        <div>
+                            <a href="{{ route('password.request') }}">Forgot your password?</a>
+                        </div>
                     </div>
                 </div>
             </div>

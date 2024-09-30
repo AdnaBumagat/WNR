@@ -18,7 +18,7 @@ use App\Http\Controllers\ChapterController;
 
 Route::get('/', function () {
     return view('landing');
-});
+})->name('home');;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
