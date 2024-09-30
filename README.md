@@ -1,14 +1,16 @@
-# How to Start Collaborating with this Project
+# Step 1: Navigate to the project directory
+cd wnr
 
-1. If your directory is not at the root of the project, use `cd wnr` to navigate to the project directory.
-2. To install dependencies, run:
-   composer install
-   npm install
-3.To copy .env.example
-   cp .env.example .env
-   php artisan key:generate
-4. To run the project
-   php artisan serve
+# Step 2: Install dependencies
+composer install
+npm install
+
+# Step 3: Set up environment configuration
+cp .env.example .env
+php artisan key:generate
+
+# Step 4: Run the project
+php artisan serve
 
 
 
