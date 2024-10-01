@@ -14,10 +14,9 @@
 
 # To add admin in your database create first a user account then type this
 - php artisan tinker,
-- $user = App\Models\User::find(1); // Find user by ID,
-- $user->is_admin = true; // Make the user an admin,
-- $user->save();,
-
+- $user = App\Models\User::find(1);  // Find the user by ID
+- $user->role = 'admin';  // Assign the 'admin' role
+- $user->save();
 
 
 
