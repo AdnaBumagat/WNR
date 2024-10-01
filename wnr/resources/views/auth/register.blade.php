@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header text-center">
+                <div class="card-header text-center text-light" style="background-color: #785c44;">
                     {{ __('Register') }}
                 </div>
                 <div class="card-body">

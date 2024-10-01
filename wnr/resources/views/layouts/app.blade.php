@@ -9,12 +9,12 @@
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #785c44;">
         <div class="container">
-            <a class="navbar-brand" href="#">WNR</a>
+            <a class="navbar-brand text-light" href="#">WNR</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Stories</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="#">Stories</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 </ul>
             </div>
         </div>

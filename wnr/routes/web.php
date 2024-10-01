@@ -40,7 +40,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+// Routes for managing users
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+    Route::patch('/admin/users/{id}/update-role', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
+    Route::patch('/admin/users/{id}/block', [UserController::class, 'blockUser'])->name('admin.users.block');
+    Route::delete('/admin/users/{id}', [UserController::class, 'deleteUser'])->name('admin.users.delete');
+});
+
+
+
 
 
 

@@ -30,21 +30,29 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $request->session()->regenerate();
-
-            // Check if the user is an admin
-            if (Auth::user()->isAdmin()) {
-                return redirect()->intended('/admin/dashboard');
-            }
-
-            // Redirect regular users to the dashboard
-            return redirect()->intended('/dashboard');
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+                // Attempt to log in the user
+                if (Auth::attempt($request->only('email', 'password'))) {
+                    $request->session()->regenerate();  // Regenerate session to prevent fixation
+        
+                    // Check if the user is blocked
+                    if (Auth::user()->is_blocked) {
+                        Auth::logout();
+                        return redirect()->back()->withErrors(['email' => 'Your account has been blocked.']);
+                    }
+        
+                    // Check if the user is an admin and redirect accordingly
+                    if (Auth::user()->isAdmin()) {
+                        return redirect()->intended('/admin/dashboard');  // Redirect admins
+                    }
+        
+                    // Redirect regular users to the dashboard
+                    return redirect()->intended('/dashboard');
+                }
+        
+                // If the credentials don't match, return an error
+                return back()->withErrors([
+                    'email' => 'The provided credentials do not match our records.',
+                ]);
     }
 
     /**
