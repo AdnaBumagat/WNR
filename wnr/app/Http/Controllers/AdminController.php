@@ -10,12 +10,15 @@ class AdminController extends Controller
     // Show admin dashboard
     public function dashboard()
     {
-
-        // Fetch the total number of users
+        // Fetch total users count
         $userCount = User::count();
 
-        // Pass the count to the view
-        return view('admin.dashboard', compact('userCount'));
+        // Fetch the number of admins and regular users
+        $adminCount = User::where('role', 'admin')->count();
+        $regularUserCount = User::where('role', 'user')->count();
+
+        // Pass the counts to the view
+        return view('admin.dashboard', compact('userCount', 'adminCount', 'regularUserCount'));
     }
 
     
