@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\ChapterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,38 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/admin/users/{id}/block', [UserController::class, 'blockUser'])->name('admin.users.block');
     Route::delete('/admin/users/{id}', [UserController::class, 'deleteUser'])->name('admin.users.delete');
 });
+
+// Route for Books
+Route::middleware(['auth'])->group(function () {
+    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
+});
+
+//Route for chapters
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/books/{bookId}/chapters/create', [ChapterController::class, 'create'])->name('chapters.create');
+    Route::post('/books/{bookId}/chapters', [ChapterController::class, 'store'])->name('chapters.store');
+});
+
+
+// Books
+Route::middleware(['auth'])->group(function () {
+    Route::get('/books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::patch('/books/{id}', [BookController::class, 'update'])->name('books.update');
+    Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
+
+    // Chapters
+    Route::get('/chapters/{id}/edit', [ChapterController::class, 'edit'])->name('chapters.edit');
+    Route::patch('/chapters/{id}', [ChapterController::class, 'update'])->name('chapters.update');
+    Route::delete('/chapters/{id}', [ChapterController::class, 'destroy'])->name('chapters.destroy');
+    Route::get('/chapters/{id}', [ChapterController::class, 'show'])->name('chapters.show');  // View full chapter content
+});
+
+
+
 
 
 
