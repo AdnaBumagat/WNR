@@ -12,5 +12,13 @@ php artisan key:generate
 # Step 4: Run the project
 php artisan serve
 
+# To add admin in your database crete first a user account then typ ethis
+php artisan tinker,
+$user = App\Models\User::find(1); // Find user by ID,
+$user->is_admin = true; // Make the user an admin,
+$user->save();,
+
+
+
 
 
