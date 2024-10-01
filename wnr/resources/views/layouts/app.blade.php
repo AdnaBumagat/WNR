@@ -12,13 +12,37 @@
             <a class="navbar-brand text-light" href="#">WNR</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item text-light"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item text-light"><a class="nav-link" href="#">Stories</a></li>
-                    <li class="nav-item text-light"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="#">Stories</a></li>
+                </ul>
+
+                <!-- Right side of the navbar -->
+                <ul class="navbar-nav ms-auto">
+                    @guest
+                        <!-- If the user is not logged in -->
+                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('login') }}">Login</a></li>
+                    @else
+                        <!-- If the user is logged in -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->name }} <!-- Display the user's name -->
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Profile</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>
     </nav>
+
     
     <div class="container mt-4">
         @yield('content')

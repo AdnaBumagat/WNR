@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
                     }
         
                     // Redirect regular users to the dashboard
-                    return redirect()->intended('/dashboard');
+                    return redirect()->intended('/');
                 }
         
                 // If the credentials don't match, return an error
