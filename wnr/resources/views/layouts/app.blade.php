@@ -29,6 +29,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('books.index') }}">My Library</a></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
