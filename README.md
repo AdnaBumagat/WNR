@@ -9,7 +9,10 @@
 - cp .env.example .env
 - php artisan key:generate
 
-# Step 4: Run the project
+- # Step 4: Migrate all the data table
+- php artisan migrate
+
+# Step 5: Run the project
 - php artisan serve
 
 # To add admin in your database create first a user account then type this
