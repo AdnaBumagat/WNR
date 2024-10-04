@@ -80,7 +80,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chapters/{id}', [ChapterController::class, 'show'])->name('chapters.show');  // View full chapter content
 });
 
+Route::post('/books/{id}/publish', [BookController::class, 'publish'])->name('books.publish');
 
+
+// Admin book approval routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/approvals', [AdminController::class, 'approvalRequests'])->name('admin.approvals.index');
+    Route::get('/admin/approvals/{id}', [AdminController::class, 'showBook'])->name('admin.approvals.showBook');
+    Route::get('/admin/approvals/chapters/{id}', [AdminController::class, 'showChapter'])->name('admin.approvals.showChapter'); // Show full chapter content
+    Route::patch('/admin/approvals/{id}/approve', [AdminController::class, 'approveBook'])->name('admin.approveBook');
+    Route::delete('/admin/approvals/{id}/reject', [AdminController::class, 'rejectBook'])->name('admin.rejectBook');
+});
 
 
 
