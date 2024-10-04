@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.approvals.index') }}" class="nav-link {{ request()->routeIs('admin.approvals.index') ? 'active' : '' }}">
                     Manage Approvals
                 </a>
             </li>

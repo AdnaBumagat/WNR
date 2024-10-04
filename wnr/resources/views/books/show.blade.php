@@ -12,7 +12,7 @@
     @if($book->chapters->isEmpty())
         <p>No chapters added yet.</p>
     @else
-        <ul class="list-group">
+    <ul class="list-group">
             @foreach($book->chapters as $chapter)
                 <li class="list-group-item">
                     <h5>
@@ -33,7 +33,17 @@
 
     <a href="{{ route('chapters.create', $book->id) }}" class="btn btn-warning mt-4">Add Chapter</a>
 
-    <!-- Buttons for editing and deleting the book -->
+    <!-- Show Publish Button only if the book is not published yet -->
+    @if(!$book->is_published)
+        <form action="{{ route('books.publish', $book->id) }}" method="POST" class="mt-4">
+            @csrf
+            <button type="submit" class="btn btn-primary">Publish Book</button>
+        </form>
+    @else
+        <p class="text-success mt-4">This book is published and awaiting admin approval.</p>
+    @endif
+
+    <!-- Edit and Delete Buttons for the book -->
     <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning mt-4">Edit Book</a>
 
     <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline mt-4">

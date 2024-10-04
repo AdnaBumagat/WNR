@@ -105,5 +105,21 @@ class BookController extends Controller
 
         return redirect()->route('books.index')->with('success', 'Book deleted successfully!');
     }
+
+    // Publish a book (called from the book detail page)
+    public function publish($id)
+    {
+        $book = Book::findOrFail($id);
+
+        // Ensure the logged-in user is the owner of the book
+        if (auth()->id() !== $book->user_id) {
+            return redirect()->route('books.index')->withErrors('You are not authorized to publish this book.');
+        }
+
+        // Mark the book as published (but not approved)
+        $book->update(['is_published' => true]);
+
+        return redirect()->route('books.show', $book->id)->with('success', 'Book has been published! It is awaiting admin approval.');
+    }
 }
 
