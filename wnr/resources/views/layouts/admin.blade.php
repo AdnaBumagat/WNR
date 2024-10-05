@@ -62,7 +62,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.library.index') }}" class="nav-link {{ request()->routeIs('admin.library.index') ? 'active' : '' }}">
                     Manage Books
                 </a>
             </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,7 @@ use App\Http\Controllers\ChapterController;
 
 
 
-// Landing page (public)
-Route::get('/', function () {
-    return view('landing');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Dashboard for authenticated users (regular users)
 Route::get('/dashboard', [UserController::class, 'dashboard'])
@@ -92,6 +90,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/approvals/{id}/reject', [AdminController::class, 'rejectBook'])->name('admin.rejectBook');
 });
 
+// Admin routes to manage approved books
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/library', [AdminController::class, 'approvedBooks'])->name('admin.library.index'); // View all approved books
+    Route::patch('/admin/library/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.library.toggleFeatured'); // Toggle featured status
+});
 
 
 

@@ -13,49 +13,61 @@
     <h2 class="text-center mt-5 mb-4">Featured Books</h2>
 
     <!-- Carousel -->
-    <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row text-center">
-                    @for ($i = 1; $i <= 4; $i++)
-                    <div class="col-3">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/250x300?text=Book+{{ $i }}" class="card-img-top" alt="Book {{ $i }}">
-                            <div class="card-body">
-                                <h5 class="card-title">Book Title {{ $i }}</h5>
-                                <p class="card-text">Author {{ $i }}</p>
-                            </div>
+    @if ($featuredBooks->isNotEmpty())
+        <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach ($featuredBooks->chunk(4) as $index => $chunk)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="row text-center">
+                            @foreach ($chunk as $book)
+                                <div class="col-3">
+                                    <div class="card">
+                                        <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $book->title }}</h5>
+                                            <p class="card-text">By:{{ $book->user->name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    @endfor
-                </div>
+                @endforeach
             </div>
-            <div class="carousel-item">
-                <div class="row text-center">
-                    @for ($i = 5; $i <= 8; $i++)
-                    <div class="col-3">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/250x300?text=Book+{{ $i }}" class="card-img-top" alt="Book {{ $i }}">
-                            <div class="card-body">
-                                <h5 class="card-title">Book Title {{ $i }}</h5>
-                                <p class="card-text">Author {{ $i }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    @endfor
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    <!-- End of Carousel -->
+    @else
+        <p class="text-center">No featured books available at the moment.</p>
+    @endif
+
+    <!-- Approved Books Title -->
+    <h2 class="text-center mt-5 mb-4">Approved Books</h2>
+
+    <!-- Approved Books List -->
+    @if ($approvedBooks->isNotEmpty())
+        <div class="row">
+            @foreach ($approvedBooks as $book)
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $book->title }}</h5>
+                            <p class="card-text">By:{{ $book->user->name }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-center">No approved books available at the moment.</p>
+    @endif
 </div>
 
 <style>

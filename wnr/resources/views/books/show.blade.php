@@ -40,8 +40,13 @@
             <button type="submit" class="btn btn-primary">Publish Book</button>
         </form>
     @else
-        <p class="text-success mt-4">This book is published and awaiting admin approval.</p>
+        @if($book->is_approved)
+            <p class="text-success mt-4">This book is approved.</p>
+        @else
+            <p class="text-warning mt-4">This book is published and awaiting admin approval.</p>
+        @endif
     @endif
+
 
     <!-- Edit and Delete Buttons for the book -->
     <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning mt-4">Edit Book</a>
