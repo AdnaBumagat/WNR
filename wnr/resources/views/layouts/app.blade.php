@@ -9,11 +9,11 @@
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #785c44;">
         <div class="container">
-            <a class="navbar-brand text-light" href="#">WNR</a>
+            <a class="navbar-brand text-light" href="{{ route('home') }}">WNR</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Stories</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link text-light" href="#">Stories</a></li> -->
                 </ul>
 
                 <!-- Right side of the navbar -->

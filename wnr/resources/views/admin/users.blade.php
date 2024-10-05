@@ -21,7 +21,6 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -32,21 +31,13 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <form method="POST" action="{{ route('admin.users.updateRole', $user->id) }}">
-                        @csrf
-                        @method('PATCH')
-                        <select name="role" class="form-select" onchange="this.form.submit()">
-                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                        </select>
-                    </form>
-                </td>
-                <td>
+                    @if($user->role !== 'admin')
                     <form method="POST" action="{{ route('admin.users.delete', $user->id) }}" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
+                    @endif
 
                     @if($user->role !== 'admin')
                     <form method="POST" action="{{ route('admin.users.block', $user->id) }}" class="d-inline">
@@ -59,6 +50,7 @@
             </tr>
             @endforeach
         </tbody>
+
     </table>
 
     <!-- Pagination Links -->
