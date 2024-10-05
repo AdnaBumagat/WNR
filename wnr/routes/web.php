@@ -92,6 +92,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/approvals/{id}/reject', [AdminController::class, 'rejectBook'])->name('admin.rejectBook');
 });
 
+// Admin routes to manage approved books
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/library', [AdminController::class, 'approvedBooks'])->name('admin.library.index'); // View all approved books
+    Route::patch('/admin/library/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.library.toggleFeatured'); // Toggle featured status
+});
 
 
 

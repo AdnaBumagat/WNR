@@ -62,6 +62,26 @@ class AdminController extends Controller
     return view('admin.approvals.showChapter', compact('chapter'));
 }
 
+    // Method to show all approved books
+    public function approvedBooks()
+    {
+        // Fetch all books that have been approved by the admin
+        $books = Book::where('is_approved', true)->get();
+        return view('admin.library.index', compact('books'));
+    }
+
+    // Method to toggle the featured status of a book
+    public function toggleFeatured($id)
+    {
+        $book = Book::findOrFail($id);
+
+        // Toggle the is_featured status
+        $book->is_featured = !$book->is_featured;
+        $book->save();
+
+        return redirect()->route('admin.library.index')->with('success', 'Book featured status updated successfully.');
+    }
+
 
         
 
