@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,7 @@ use App\Http\Controllers\ChapterController;
 
 
 
-// Landing page (public)
-Route::get('/', function () {
-    return view('landing');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Dashboard for authenticated users (regular users)
 Route::get('/dashboard', [UserController::class, 'dashboard'])
