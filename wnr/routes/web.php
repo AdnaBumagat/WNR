@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReaderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/library', [AdminController::class, 'approvedBooks'])->name('admin.library.index'); // View all approved books
     Route::patch('/admin/library/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.library.toggleFeatured'); // Toggle featured status
 });
+
+
+// Reader routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/readers/{id}', [ReaderController::class, 'show'])->name('readers.show'); // View reader details (previously book)
+    Route::get('/readers/{bookId}/chapters/{chapterId}', [ReaderController::class, 'showChapter'])->name('readers.chapters.show'); // View chapter in reader (previously book)
+});
+
 
 
 

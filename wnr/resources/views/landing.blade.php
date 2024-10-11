@@ -12,7 +12,7 @@
     <!-- Featured Books Title -->
     <h2 class="text-center mt-5 mb-4">Featured Books</h2>
 
-    <!-- Carousel -->
+    <!-- Carousel for Featured Readers -->
     @if ($featuredBooks->isNotEmpty())
         <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -21,13 +21,15 @@
                         <div class="row text-center">
                             @foreach ($chunk as $book)
                                 <div class="col-3">
-                                    <div class="card">
-                                        <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $book->title }}</h5>
-                                            <p class="card-text">By:{{ $book->user->name }}</p>
+                                    <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
+                                        <div class="card">
+                                            <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $book->title }}</h5>
+                                                <p class="card-text">{{ $book->user->name }}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
@@ -44,29 +46,31 @@
             </button>
         </div>
     @else
-        <p class="text-center">No featured books available at the moment.</p>
+        <p class="text-center">No featured Books available at the moment.</p>
     @endif
 
-    <!-- Approved Books Title -->
+    <!-- Approved book Title -->
     <h2 class="text-center mt-5 mb-4">Approved Books</h2>
 
-    <!-- Approved Books List -->
+    <!-- Approved book List -->
     @if ($approvedBooks->isNotEmpty())
         <div class="row">
             @foreach ($approvedBooks as $book)
                 <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $book->title }}</h5>
-                            <p class="card-text">By:{{ $book->user->name }}</p>
+                    <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
+                        <div class="card">
+                            <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $book->title }}</h5>
+                                <p class="card-text">{{ $book->user->name }}</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
     @else
-        <p class="text-center">No approved books available at the moment.</p>
+        <p class="text-center">No approved book available at the moment.</p>
     @endif
 </div>
 
