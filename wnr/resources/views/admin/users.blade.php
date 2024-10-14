@@ -5,6 +5,7 @@
 @section('content')
 <div class="container mt-5">
     <h1>Manage Users</h1>
+    <a href="{{ route('users.export') }}" class="btn btn-success">Export to CSV</a>
 
     <!-- Search Form -->
     <form method="GET" action="{{ route('admin.users') }}" class="mb-4">

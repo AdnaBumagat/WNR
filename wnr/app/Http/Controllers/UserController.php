@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
@@ -58,5 +59,44 @@ class UserController extends Controller
         $user->delete(); // Perform soft delete
 
         return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
+    // Export users to CSV
+    public function exportUsersToCSV()
+    {
+        // Fetch all users
+        $users = User::select('name', 'email', 'created_at')->get();
+
+        // Define the CSV filename
+        $filename = "users_" . now()->format('Y_m_d_H_i_s') . ".csv";
+
+        // Create a file pointer
+        $handle = fopen('php://output', 'w');
+
+        // Set the headers for the CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ];
+
+        // Write the column headings to the CSV file
+        fputcsv($handle, ['Name', 'Email', 'Created At']);
+
+        // Write each user's data to the CSV file
+        foreach ($users as $user) {
+            fputcsv($handle, [
+                $user->name,
+                $user->email,
+                $user->created_at->toDateString(),
+            ]);
+        }
+
+        // Close the file pointer
+        fclose($handle);
+
+        // Send the response with the CSV data
+        return Response::streamDownload(function () use ($handle) {
+            // The file content will be streamed via 'php://output'
+        }, $filename, $headers);
     }
 }
