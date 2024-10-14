@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Chapter;
+use Illuminate\Support\Facades\Response;
+
 
 class AdminController extends Controller
 {
@@ -80,6 +82,50 @@ class AdminController extends Controller
         $book->save();
 
         return redirect()->route('admin.library.index')->with('success', 'Book featured status updated successfully.');
+    }
+
+    // Export approved books to CSV
+    public function exportApprovedBooksToCSV()
+    {
+        // Fetch approved books
+        $books = Book::select('title', 'genre', 'user_id', 'is_featured', 'created_at')
+                    ->where('is_approved', true)
+                    ->with('user:name,id')
+                    ->get();
+
+        // Define the CSV filename
+        $filename = "approved_books_" . now()->format('Y_m_d_H_i_s') . ".csv";
+
+        // Create a file pointer
+        $handle = fopen('php://output', 'w');
+
+        // Set the headers for the CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ];
+
+        // Write the column headings to the CSV file
+        fputcsv($handle, ['Title', 'Genre', 'Author', 'Featured', 'Created At']);
+
+        // Write each approved book's data to the CSV file
+        foreach ($books as $book) {
+            fputcsv($handle, [
+                $book->title,
+                $book->genre,
+                $book->user->name,
+                $book->is_featured ? 'Yes' : 'No',
+                $book->created_at->toDateString(),
+            ]);
+        }
+
+        // Close the file pointer
+        fclose($handle);
+
+        // Send the response with the CSV data
+        return Response::streamDownload(function () use ($handle) {
+            // The file content will be streamed via 'php://output'
+        }, $filename, $headers);
     }
 
 
