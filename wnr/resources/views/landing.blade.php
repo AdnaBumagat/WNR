@@ -24,7 +24,7 @@
                                     <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
                                         <div class="card">
                                             <!-- Display the actual image or fallback to placeholder -->
-                                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top card-image" alt="{{ $book->title }}">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $book->title }}</h5>
                                                 <p class="card-text">{{ $book->user->name }}</p>
@@ -61,7 +61,7 @@
                     <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
                         <div class="card">
                             <!-- Display the actual image or fallback to placeholder -->
-                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top card-image" alt="{{ $book->title }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $book->title }}</h5>
                                 <p class="card-text">{{ $book->user->name }}</p>
@@ -71,8 +71,13 @@
                 </div>
             @endforeach
         </div>
+
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center mt-4">
+            {{ $approvedBooks->links() }}
+        </div>
     @else
-        <p class="text-center">No approved book available at the moment.</p>
+        <p class="text-center">No approved books available at the moment.</p>
     @endif
 </div>
 
@@ -85,13 +90,20 @@
         margin: 0 auto; /* Center the cards */
     }
 
+    /* Ensure consistent image size */
+    .card-image {
+        width: 100%;         /* Full width inside the card */
+        height: 300px;       /* Fixed height for all images */
+        object-fit: cover;   /* Ensures the image covers the area without distortion */
+    }
+
     .card-title {
-        font-size: 1.1rem; /* Adjust title size */
+        font-size: 1.1rem;   /* Adjust title size */
     }
 
     .card-text {
-        font-size: 0.9rem; /* Adjust author size */
-        color: #666; /* Adjust author color */
+        font-size: 0.9rem;   /* Adjust author size */
+        color: #666;         /* Adjust author color */
     }
 </style>
 @endsection

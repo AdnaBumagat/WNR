@@ -25,13 +25,14 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('userCount', 'adminCount', 'regularUserCount'));
     }
 
-        // Show a list of books awaiting approval
-        public function approvalRequests()
-        {
-            // Fetch all published books that haven't been approved yet
-            $books = Book::where('is_published', true)->where('is_approved', false)->get();
-            return view('admin.approvals.index', compact('books'));
-        }
+    public function approvalRequests()
+    {
+        // Fetch all published books that haven't been approved yet with pagination (5 per page)
+        $books = Book::where('is_published', true)
+                     ->where('is_approved', false)
+                     ->paginate(5); // Add pagination here
+        return view('admin.approvals.index', compact('books'));
+    }
     
         // Show the book content for admin to approve or reject
         public function showBook($id)
@@ -64,13 +65,13 @@ class AdminController extends Controller
     return view('admin.approvals.showChapter', compact('chapter'));
 }
 
-    // Method to show all approved books
-    public function approvedBooks()
-    {
-        // Fetch all books that have been approved by the admin
-        $books = Book::where('is_approved', true)->get();
-        return view('admin.library.index', compact('books'));
-    }
+public function approvedBooks()
+{
+    // Fetch all books that have been approved by the admin with pagination (10 per page)
+    $books = Book::where('is_approved', true)
+                 ->paginate(4); // Add pagination here
+    return view('admin.library.index', compact('books'));
+}
 
     // Method to toggle the featured status of a book
     public function toggleFeatured($id)
