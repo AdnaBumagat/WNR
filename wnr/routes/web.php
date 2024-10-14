@@ -97,6 +97,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/admin/library/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.library.toggleFeatured'); // Toggle featured status
     // Route to export approved books to CSV
     Route::get('/admin/library/export-csv', [AdminController::class, 'exportApprovedBooksToCSV'])->name('admin.library.export-csv');
+    Route::get('/admin/users/export', [UserController::class, 'exportUsersToCSV'])->name('users.export');
+
 });
 
 

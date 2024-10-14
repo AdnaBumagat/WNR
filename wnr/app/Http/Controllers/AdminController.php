@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Response;
 class AdminController extends Controller
 {
     // Show admin dashboard
+    // Show admin dashboard
     public function dashboard()
     {
         // Fetch total users count
@@ -21,8 +22,17 @@ class AdminController extends Controller
         $adminCount = User::where('role', 'admin')->count();
         $regularUserCount = User::where('role', 'user')->count();
 
+        // Fetch counts for approved and featured books
+        $approvedBookCount = Book::where('is_approved', true)->count();
+        $featuredBookCount = Book::where('is_featured', true)->count();
+
+        // Fetch counts for approval requests
+        $approvalRequestCount = Book::where('is_published', true)
+                                     ->where('is_approved', false)
+                                     ->count();
+
         // Pass the counts to the view
-        return view('admin.dashboard', compact('userCount', 'adminCount', 'regularUserCount'));
+        return view('admin.dashboard', compact('userCount', 'adminCount', 'regularUserCount', 'approvedBookCount', 'featuredBookCount', 'approvalRequestCount'));
     }
 
     public function approvalRequests()
