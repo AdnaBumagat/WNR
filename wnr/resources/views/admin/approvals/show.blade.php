@@ -5,6 +5,14 @@
 @section('content')
 <div class="container mt-5">
     <h1>{{ $book->title }}</h1>
+
+    <!-- Display the book image or a placeholder -->
+    @if($book->image)
+        <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->title }}" class="book-cover-image mb-3">
+    @else
+        <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" alt="No Image Available" class="book-cover-image mb-3">
+    @endif
+
     <p>{{ $book->description }}</p>
     <p><strong>Genre:</strong> {{ $book->genre }}</p>
     <p><strong>Author:</strong> {{ $book->user->name }}</p>
@@ -38,4 +46,12 @@
         <button type="submit" class="btn btn-danger">Reject Book</button>
     </form>
 </div>
+
+<style>
+    .book-cover-image {
+        width: 250px;
+        height: 300px;
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+    }
+</style>
 @endsection

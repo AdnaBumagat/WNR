@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -21,7 +22,14 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'genre' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
+
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('book_images', 'public'); // Save to 'storage/app/public/book_images'
+        }
 
         // Create the book and associate it with the logged-in user (author)
         Book::create([
@@ -29,6 +37,7 @@ class BookController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'genre' => $request->genre,
+            'image' => $imagePath, // Store image path
         ]);
 
         return redirect()->route('books.index')->with('success', 'Book created successfully!');
@@ -78,13 +87,26 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'genre' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
 
-        // Update the book
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($book->image) {
+                Storage::disk('public')->delete($book->image);
+            }
+
+            // Save the new image
+            $book->image = $request->file('image')->store('book_images', 'public');
+        }
+
+        // Update the book details
         $book->update([
             'title' => $request->title,
             'description' => $request->description,
             'genre' => $request->genre,
+            'image' => $book->image,
         ]);
 
         return redirect()->route('books.show', $book->id)->with('success', 'Book updated successfully!');
@@ -101,6 +123,9 @@ class BookController extends Controller
         }
 
         // Delete the book and its chapters
+        if ($book->image) {
+            Storage::disk('public')->delete($book->image); // Delete the image if it exists
+        }
         $book->delete();
 
         return redirect()->route('books.index')->with('success', 'Book deleted successfully!');
@@ -122,4 +147,3 @@ class BookController extends Controller
         return redirect()->route('books.show', $book->id)->with('success', 'Book has been published! It is awaiting admin approval.');
     }
 }
-
