@@ -35,7 +35,12 @@
                     </form>
                 </li>
             @endforeach
+            <!-- Pagination Links -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $chapters->links('pagination::bootstrap-5') }} <!-- Use Bootstrap 5 pagination styling -->
+    </div>
         </ul>
+        
     @endif
 
     <a href="{{ route('chapters.create', $book->id) }}" class="btn btn-warning mt-4">Add Chapter</a>

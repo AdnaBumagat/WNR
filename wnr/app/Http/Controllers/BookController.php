@@ -57,9 +57,12 @@ class BookController extends Controller
     // Show a single book with its details and chapters
     public function show($id)
     {
-        $book = Book::with('chapters')->findOrFail($id); // Load the book and its chapters
-        return view('books.show', compact('book'));
+        $book = Book::findOrFail($id); // Load the book
+        $chapters = $book->chapters()->paginate(10); // Paginate chapters with 5 per page
+
+        return view('books.show', compact('book', 'chapters')); // Pass both book and paginated chapters
     }
+
 
     // Show the form to edit a book
     public function edit($id)

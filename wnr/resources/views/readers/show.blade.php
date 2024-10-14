@@ -33,6 +33,10 @@
                 </li>
             @endforeach
         </ul>
+         <!-- Pagination Links -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $chapters->links('pagination::bootstrap-5') }} <!-- Use Bootstrap 5 pagination styling -->
+    </div>
     @endif
 </div>
 
