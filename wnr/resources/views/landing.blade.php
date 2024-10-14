@@ -23,7 +23,8 @@
                                 <div class="col-3">
                                     <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
                                         <div class="card">
-                                            <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                                            <!-- Display the actual image or fallback to placeholder -->
+                                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $book->title }}</h5>
                                                 <p class="card-text">{{ $book->user->name }}</p>
@@ -49,17 +50,18 @@
         <p class="text-center">No featured Books available at the moment.</p>
     @endif
 
-    <!-- Approved book Title -->
+    <!-- Approved Books Title -->
     <h2 class="text-center mt-5 mb-4">Approved Books</h2>
 
-    <!-- Approved book List -->
+    <!-- Approved Books List -->
     @if ($approvedBooks->isNotEmpty())
         <div class="row">
             @foreach ($approvedBooks as $book)
                 <div class="col-md-3 mb-4">
                     <a href="{{ route('readers.show', $book->id) }}"> <!-- Use reader route -->
                         <div class="card">
-                            <img src="https://via.placeholder.com/250x300?text={{ urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
+                            <!-- Display the actual image or fallback to placeholder -->
+                            <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top" alt="{{ $book->title }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $book->title }}</h5>
                                 <p class="card-text">{{ $book->user->name }}</p>

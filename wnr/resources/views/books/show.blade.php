@@ -7,6 +7,13 @@
     <p><strong>Genre:</strong> {{ $book->genre }}</p>
     <p><strong>Author:</strong> {{ $book->user->name }}</p>
 
+     <!-- Consistent image size -->
+    @if($book->image)
+        <img src="{{ asset('storage/' . $book->image) }}" class="book-image-detail" alt="{{ $book->title }}">
+    @else
+        <p>No image available for this book.</p>
+    @endif
+
     <h2>Chapters</h2>
 
     @if($book->chapters->isEmpty())
@@ -57,4 +64,13 @@
         <button type="submit" class="btn btn-danger">Delete Book</button>
     </form>
 </div>
+<style>
+    /* Consistent size for book image on detail page */
+    .book-image-detail {
+        width: 250px;
+        height: 350px;
+        object-fit: cover; /* Keeps the aspect ratio while covering the container */
+    }
+</style>
 @endsection
+
