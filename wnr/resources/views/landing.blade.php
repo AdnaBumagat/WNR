@@ -27,7 +27,7 @@
                                             <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top card-image" alt="{{ $book->title }}">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $book->title }}</h5>
-                                                <p class="card-text">{{ $book->user->name }}</p>
+                                                <p class="card-text">By:{{ $book->user->name }}</p>
                                             </div>
                                         </div>
                                     </a>
@@ -64,7 +64,7 @@
                             <img src="{{ $book->image ? asset('storage/' . $book->image) : 'https://via.placeholder.com/250x300?text=' . urlencode($book->title) }}" class="card-img-top card-image" alt="{{ $book->title }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $book->title }}</h5>
-                                <p class="card-text">{{ $book->user->name }}</p>
+                                <p class="card-text">By:{{ $book->user->name }}</p>
                             </div>
                         </div>
                     </a>
