@@ -45,13 +45,14 @@ class BookController extends Controller
 
     // List all books created by the authenticated user
     public function index()
-    {
-        // Fetch the books created by the logged-in user
-        $books = Auth::user()->books; // Use the user's relationship to fetch their books
+{
+    // Fetch the books created by the logged-in user with pagination (8 books per page)
+    $books = Auth::user()->books()->paginate(8); // Add pagination here
 
-        // Pass the books to the view
-        return view('books.index', compact('books'));
-    }
+    // Pass the paginated books to the view
+    return view('books.index', compact('books'));
+}
+
 
     // Show a single book with its details and chapters
     public function show($id)

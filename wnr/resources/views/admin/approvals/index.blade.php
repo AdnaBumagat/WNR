@@ -30,6 +30,10 @@
                 </li>
             @endforeach
         </ul>
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center mt-4">
+            {{ $books->onEachSide(1)->links('pagination::bootstrap-5') }} <!-- Ensure it uses Bootstrap 5 styles -->
+        </div>
     @endif
 </div>
 

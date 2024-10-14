@@ -14,10 +14,10 @@ class HomeController extends Controller
                              ->take(8)  // Limit to 8 for the carousel
                              ->get();
 
-        // Fetch approved books that are not featured
+        // Fetch approved books that are not featured with pagination
         $approvedBooks = Book::where('is_approved', true)
                              ->where('is_featured', false)
-                             ->get();
+                             ->paginate(8);  // Paginate approved books, 8 per page
 
         return view('landing', compact('featuredBooks', 'approvedBooks'));
     }
